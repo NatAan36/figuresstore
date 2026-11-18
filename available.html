@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8ecae6">
+  <title>Available Now - Atelier Hobby</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo-placeholder.svg">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/available.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <input class="menu-toggle-input" type="checkbox" id="menuToggle" aria-label="Buka menu">
+    <div class="container header-main">
+      <label class="menu-toggle" for="menuToggle" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </label>
+
+      <a href="index.html" class="brand" aria-label="Atelier Hobby - Beranda">
+        <img class="brand__mark" src="assets/images/logo-placeholder.svg" alt="Logo Atelier Hobby" width="40" height="40">
+        <span class="brand__name">Atelier <b>Hobby</b></span>
+      </a>
+
+      <form class="header-search" action="#" role="search">
+        <input type="search" placeholder="Cari figure, karakter, atau seri..." aria-label="Cari produk">
+        <button type="submit" aria-label="Cari">
+          <img src="assets/icons/search.svg" alt="" width="20" height="20">
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <a href="#" class="header-action" aria-label="Wishlist">
+          <img src="assets/icons/wishlist.svg" alt="" width="21" height="21">
+          <span>Wishlist</span>
+        </a>
+        <a href="login.html" class="header-action" aria-label="Akun saya">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path>
+          </svg>
+          <span>Akun</span>
+        </a>
+        <a href="#" class="header-action" aria-label="Keranjang, 3 item">
+          <span class="cart-icon">
+            <img src="assets/icons/cart.svg" alt="" width="21" height="21">
+            <span class="cart-count">3</span>
+          </span>
+          <span>Keranjang</span>
+        </a>
+      </div>
+    </div>
+
+    <nav class="desktop-nav" aria-label="Navigasi kategori">
+      <div class="container desktop-nav__inner">
+        <ul class="nav-list">
+          <li><a href="index.html#gift-guides">Gift Guides</a></li>
+          <li><a href="preorder.html">Pre-Order</a></li>
+          <li><a href="index.html#product-lines">Koleksi &amp; Brand</a></li>
+          <li><a href="available.html">Available Now</a></li>
+          <li><a href="index.html#gift-guides">Blogs</a></li>
+          <li><a href="index.html#sale" class="sale-link">On Sale</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <nav class="container mobile-menu__nav" aria-label="Navigasi seluler">
+        <a href="index.html#gift-guides">Gift Guides</a>
+        <a href="preorder.html">Pre-Order</a>
+        <a href="available.html">Available Now</a>
+        <a href="index.html#product-lines">Koleksi &amp; Brand</a>
+        <a href="index.html#sale">On Sale</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section-block available-page" id="available">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Available Now</p>
+            <h2>Produk Ready Stock</h2>
+            <p class="available-intro">Semua produk di halaman ini tersedia saat ini dan siap dikirim. Pilih kategori di bawah untuk menyaring produk.</p>
+          </div>
+          <div class="section-tools">
+            <a href="preorder.html" class="text-link">Lihat Pre-Order &rarr;</a>
+          </div>
+        </div>
+
+        <p class="available-note"><strong>Catatan:</strong> pesanan diproses 1–3 hari kerja dan dikirim setelah pembayaran dikonfirmasi.</p>
+
+        <!-- Radio filter: harus bersinggungan langsung dengan .available-grid -->
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-all" checked>
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-nendoroid">
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-figma">
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-mini">
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-prize">
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-scale">
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-pop">
+        <input class="available-filter__input" type="radio" name="stok-kategori" id="stock-modelkit">
+
+        <div class="available-filter" aria-label="Filter kategori produk">
+          <label class="available-filter__label" for="stock-all">Semua</label>
+          <label class="available-filter__label" for="stock-nendoroid">Nendoroid</label>
+          <label class="available-filter__label" for="stock-figma">Figma</label>
+          <label class="available-filter__label" for="stock-mini">Mini Figure</label>
+          <label class="available-filter__label" for="stock-prize">Prize Figure</label>
+          <label class="available-filter__label" for="stock-scale">Scale Figure</label>
+          <label class="available-filter__label" for="stock-pop">POP UP PARADE</label>
+          <label class="available-filter__label" for="stock-modelkit">Model Kit</label>
+        </div>
+
+        <div class="available-grid">
+          <!-- Nendoroid -->
+          <article class="product-card" data-status="ready" data-category="nendoroid">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--stock">Ready Stock</span><span class="badge-tag badge-tag--new">New</span><span class="badge-tag badge-tag--bonus">Bonuses</span></div>
+              <img src="https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/57522/5Y6rbhiKBfDsuS7QxU0gc2eVR9yAMNqH.jpg" alt="Nendoroid Manhattan Cafe - Uma Musume: Pretty Derby" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Good Smile Company</p>
+              <h3>Nendoroid Manhattan Cafe - Uma Musume: Pretty Derby</h3>
+              <p class="product-card__price"><strong>Rp 650.000</strong></p>
+              <button class="btn btn--primary" type="button">Buy Now</button>
+            </div>
+          </article>
+
+          <!-- Mini Figure -->
+          <article class="product-card" data-status="ready" data-category="mini">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--stock">Ready Stock</span><span class="badge-tag badge-tag--new">New</span></div>
+              <img src="https://m.media-amazon.com/images/I/51E0pmV1TPL._AC_UF894,1000_QL80_.jpg" alt="Coreful Figure Kurumi Tokisaki - Date A Live IV" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Taito</p>
+              <h3>TAITO DATE A LIVE IV Kurumi Tokisaki Coreful Figure Plain Clothes ver.</h3>
+              <p class="product-card__price"><strong>Rp 380.000</strong></p>
+              <button class="btn btn--primary" type="button">Buy Now</button>
+            </div>
+          </article>
+
+          <!-- Prize Figure -->
+          <article class="product-card" data-status="ready" data-category="prize">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--stock">Ready Stock</span><span class="badge-tag badge-tag--sale">Sale</span></div>
+              <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/105/MTA-179207339/brd-44261_ichiban-kuji-figure-manhattan-cafe-uma-musume-pretty-derby-9th-edition-last-one-prize-17cm_full01-d6911a6d.jpg" alt="Ichiban Kuji Manhattan Cafe Last One Prize - Uma Musume" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Banpresto</p>
+              <h3>Ichiban Kuji Figure Manhattan Cafe - Uma Musume: Pretty Derby 9th Edition Last One Prize (17cm)</h3>
+              <p class="product-card__price"><strong>Rp 1.450.000</strong> <del>Rp 1.700.000</del></p>
+              <button class="btn btn--primary" type="button">Buy Now</button>
+            </div>
+          </article>
+
+          <!-- Scale Figure -->
+          <article class="product-card" data-status="ready" data-category="scale">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--stock">Ready Stock</span><span class="badge-tag badge-tag--new">New</span></div>
+              <img src="https://www.goodsmileus.com/cdn/shop/files/85f61cfb-c72f-4395-990e-0813826264bf.jpg?v=1792689129&width=1920" alt="Haru Urara New Year New Urara Ver. 1/7 Scale Figure" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Good Smile Company</p>
+              <h3>Umamusume: Pretty Derby - Haru Urara [New Year ♪ New Urara!] Ver. 1/7 Scale Figure</h3>
+              <p class="product-card__price"><strong>Rp 4.150.000</strong></p>
+              <button class="btn btn--primary" type="button">Buy Now</button>
+            </div>
+          </article>
+
+          <!-- Model Kit -->
+          <article class="product-card" data-status="ready" data-category="modelkit">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--stock">Ready Stock</span><span class="badge-tag badge-tag--sale">Sale</span></div>
+              <img src="https://files.titipjepang.com/2026/10/POTJ-1026201-BANDAI-SPIRITS-Mobile-Suit-Gundam-RG-XARX-ZERO-HG-1_144-Gundam-ZERO.jpg" alt="Model Kit Bandai HG 1/144 Gundam ZERO" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Bandai Spirits</p>
+              <h3>Model Kit Bandai HG 1/144 Gundam ZERO Mobile Suit Gundam RG XARX-ZERO</h3>
+              <p class="product-card__price"><strong>Rp 420.000</strong> <del>Rp 520.000</del></p>
+              <button class="btn btn--primary" type="button">Buy Now</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <a href="index.html" class="brand brand--footer" aria-label="Atelier Hobby - Beranda">
+          <img class="brand__mark" src="assets/images/logo-placeholder.svg" alt="Logo Atelier Hobby" width="40" height="40">
+          <span class="brand__name">Atelier <b>Hobby</b></span>
+        </a>
+        <p>Toko figure dan merchandise anime terpercaya untuk kolektor di Indonesia. Figure original, pre-order aman, dan pengiriman seluruh Indonesia.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="X">X</a>
+          <a href="#" aria-label="Facebook">FB</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Shop</h3>
+        <a href="index.html#product-lines">Koleksi</a>
+        <a href="index.html#product-lines">Brands</a>
+        <a href="preorder.html">Pre-Orders</a>
+        <a href="available.html">Available Now</a>
+      </div>
+      <div class="footer-col">
+        <h3>Connect</h3>
+        <a href="login.html">My Account</a>
+        <a href="#">Tentang Kami</a>
+        <a href="index.html#sale">Promo</a>
+        <a href="#">Karier</a>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <a href="#">Support Center</a>
+        <a href="#">Hubungi Kami</a>
+        <a href="#">Cara Pemesanan</a>
+        <a href="#">Pengiriman</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 Atelier Hobby. All rights reserved.</span>
+      <nav aria-label="Kebijakan">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+        <a href="#">Refund Policy</a>
+      </nav>
+      <span class="footer-payments">VISA &middot; Mastercard &middot; GOPAY</span>
+    </div>
+  </footer>
+</body>
+</html>

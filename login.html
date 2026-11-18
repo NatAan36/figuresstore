@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8ecae6">
+  <title>Login - Atelier Hobby</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo-placeholder.svg">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/account.css">
+</head>
+<body class="auth-body">
+  <div class="auth-shell">
+    <aside class="auth-visual">
+      <img class="auth-visual__image" src="https://kyoucdn.id/items/389412-amiami-x-snail-shell-action-scaled-figure-doro-goddess-of-victory-nikke.jpg" alt="Koleksi figure Goddess of Victory: Nikke" fetchpriority="high">
+      <a href="index.html" class="auth-brand" aria-label="Atelier Hobby - Beranda">
+        <img src="assets/images/logo-placeholder.svg" alt="" width="32" height="32">
+        <span>Atelier <b>Hobby</b></span>
+      </a>
+      <div class="auth-visual__content">
+        <p class="auth-visual__kicker">Member Access</p>
+        <h1>Selamat datang kembali.</h1>
+        <p>Koleksi figure impianmu menunggu. Masuk untuk melanjutkan pre-order, cek pesanan, dan simpan favoritmu.</p>
+      </div>
+      <p class="auth-visual__footer">Figure original &middot; Pre-order aman &middot; Pengiriman seluruh Indonesia</p>
+    </aside>
+
+    <main class="auth-panel">
+      <div class="auth-form">
+        <p class="auth-form__kicker">Login</p>
+        <h2>Masuk ke akunmu</h2>
+        <p class="auth-form__subtitle">Gunakan email dan password yang sudah kamu daftarkan.</p>
+
+        <form action="#" method="post">
+          <div class="auth-field">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" placeholder="nama@email.com" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" placeholder="Masukkan password" autocomplete="current-password" required>
+          </div>
+          <div class="auth-row">
+            <label class="auth-check">
+              <input type="checkbox" name="remember">
+              <span>Ingat saya</span>
+            </label>
+            <span class="auth-links"><a href="#">Lupa password?</a></span>
+          </div>
+          <button class="auth-submit" type="submit">Masuk</button>
+        </form>
+
+        <p class="auth-switch">Belum punya akun? <a href="register.html">Daftar sekarang</a></p>
+        <a href="index.html" class="auth-back">&larr; Kembali ke beranda</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

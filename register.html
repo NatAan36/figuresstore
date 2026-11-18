@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8ecae6">
+  <title>Register - Atelier Hobby</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo-placeholder.svg">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/account.css">
+</head>
+<body class="auth-body">
+  <div class="auth-shell">
+    <aside class="auth-visual">
+      <img class="auth-visual__image" src="https://www.goodsmileus.com/cdn/shop/files/10194685-c897-4df9-8380-4f134be44f2b.jpg?v=1794850116&width=1920" alt="Koleksi scale figure Blue Archive" fetchpriority="high">
+      <a href="index.html" class="auth-brand" aria-label="Atelier Hobby - Beranda">
+        <img src="assets/images/logo-placeholder.svg" alt="" width="32" height="32">
+        <span>Atelier <b>Hobby</b></span>
+      </a>
+      <div class="auth-visual__content">
+        <p class="auth-visual__kicker">Bergabung Sekarang</p>
+        <h1>Mulai koleksimu bersama kami.</h1>
+        <p>Daftar untuk menyimpan wishlist, mengikuti pre-order, dan mendapatkan info promo terbaru lebih awal.</p>
+      </div>
+      <p class="auth-visual__footer">Figure original &middot; Pre-order aman &middot; Pengiriman seluruh Indonesia</p>
+    </aside>
+
+    <main class="auth-panel">
+      <div class="auth-form">
+        <p class="auth-form__kicker">Register</p>
+        <h2>Buat akun baru</h2>
+        <p class="auth-form__subtitle">Isi data di bawah untuk membuat akun Atelier Hobby.</p>
+
+        <form action="#" method="post">
+          <div class="auth-field">
+            <label for="register-name">Username</label>
+            <input type="text" id="register-name" name="name" placeholder="Username" autocomplete="name" required>
+          </div>
+          <div class="auth-field">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" name="email" placeholder="nama@email.com" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" name="password" placeholder="Minimal 8 karakter" autocomplete="new-password" minlength="8" required>
+          </div>
+          <div class="auth-field">
+            <label for="register-confirm">Konfirmasi password</label>
+            <input type="password" id="register-confirm" name="confirm_password" placeholder="Ulangi password" autocomplete="new-password" minlength="8" required>
+          </div>
+          <label class="auth-check">
+            <input type="checkbox" name="terms" required>
+            <span>Saya menyetujui <a href="#">Syarat &amp; Ketentuan</a> dan <a href="#">Kebijakan Privasi</a></span>
+          </label>
+          <button class="auth-submit" type="submit">Daftar</button>
+        </form>
+
+        <p class="auth-switch">Sudah punya akun? <a href="login.html">Masuk</a></p>
+        <a href="index.html" class="auth-back">&larr; Kembali ke beranda</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

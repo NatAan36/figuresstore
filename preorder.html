@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8ecae6">
+  <title>Pre-Order - Atelier Hobby</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo-placeholder.svg">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/preorder.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <input class="menu-toggle-input" type="checkbox" id="menuToggle" aria-label="Buka menu">
+    <div class="container header-main">
+      <label class="menu-toggle" for="menuToggle" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </label>
+
+      <a href="index.html" class="brand" aria-label="Atelier Hobby - Beranda">
+        <img class="brand__mark" src="assets/images/logo-placeholder.svg" alt="Logo Atelier Hobby" width="40"
+          height="40">
+        <span class="brand__name">Atelier <b>Hobby</b></span>
+      </a>
+
+      <form class="header-search" action="#" role="search">
+        <input type="search" placeholder="Cari figure, karakter, atau seri..." aria-label="Cari produk">
+        <button type="submit" aria-label="Cari">
+          <img src="assets/icons/search.svg" alt="" width="20" height="20">
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <a href="#" class="header-action" aria-label="Wishlist">
+          <img src="assets/icons/wishlist.svg" alt="" width="21" height="21">
+          <span>Wishlist</span>
+        </a>
+        <a href="login.html" class="header-action" aria-label="Akun saya">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path>
+          </svg>
+          <span>Akun</span>
+        </a>
+        <a href="#" class="header-action" aria-label="Keranjang, 3 item">
+          <span class="cart-icon">
+            <img src="assets/icons/cart.svg" alt="" width="21" height="21">
+            <span class="cart-count">3</span>
+          </span>
+          <span>Keranjang</span>
+        </a>
+      </div>
+    </div>
+
+    <nav class="desktop-nav" aria-label="Navigasi kategori">
+      <div class="container desktop-nav__inner">
+        <ul class="nav-list">
+          <li><a href="index.html#gift-guides">Gift Guides</a></li>
+          <li><a href="preorder.html">Pre-Order</a></li>
+          <li><a href="index.html#product-lines">Koleksi &amp; Brand</a></li>
+          <li><a href="available.html">Available Now</a></li>
+          <li><a href="index.html#gift-guides">Blogs</a></li>
+          <li><a href="index.html#sale" class="sale-link">On Sale</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <nav class="container mobile-menu__nav" aria-label="Navigasi seluler">
+        <a href="index.html#gift-guides">Gift Guides</a>
+        <a href="preorder.html">Pre-Order</a>
+        <a href="available.html">Available Now</a>
+        <a href="index.html#product-lines">Koleksi &amp; Brand</a>
+        <a href="index.html#sale">On Sale</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section-block preorder-page" id="preorder">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Pre-Order</p>
+            <h2>Koleksi Pre-Order</h2>
+            <p class="preorder-intro">Semua produk di halaman ini berstatus Pre-Order. Pilih kategori di bawah untuk
+              menyaring produk.</p>
+          </div>
+          <div class="section-tools">
+            <a href="available.html" class="text-link">Lihat Ready Stock &rarr;</a>
+          </div>
+        </div>
+
+        <p class="preorder-note"><strong>Catatan:</strong> estimasi tiba 4–8 minggu setelah rilis. Bonus eksklusif
+          tersedia untuk pemesanan awal selama persediaan masih ada.</p>
+
+        <!-- Radio filter: harus bersinggungan langsung dengan .preorder-grid -->
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-all" checked>
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-nendoroid">
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-figma">
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-mini">
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-prize">
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-scale">
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-pop">
+        <input class="preorder-filter__input" type="radio" name="kategori" id="filter-modelkit">
+        
+
+        <div class="preorder-filter" aria-label="Filter kategori produk">
+          <label class="preorder-filter__label" for="filter-all">Semua</label>
+          <label class="preorder-filter__label" for="filter-nendoroid">Nendoroid</label>
+          <label class="preorder-filter__label" for="filter-figma">Figma</label>
+          <label class="preorder-filter__label" for="filter-mini">Mini Figure</label>
+          <label class="preorder-filter__label" for="filter-prize">Prize Figure</label>
+          <label class="preorder-filter__label" for="filter-scale">Scale Figure</label>
+          <label class="preorder-filter__label" for="filter-pop">POP UP PARADE</label>
+          <label class="preorder-filter__label" for="filter-modelkit">Model Kit</label>
+        </div>
+
+        <div class="preorder-grid">
+          <!-- Nendoroid -->
+          <article class="product-card" data-status="preorder" data-category="nendoroid">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/35620/5j2qnp1HALm4kt9dUVCMxDw3i0BFJabX.jpg"
+                alt="Nendoroid Agnes Tachyon - Uma Musume: Pretty Derby" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Good Smile Company</p>
+              <h3>Nendoroid Agnes Tachyon - Uma Musume: Pretty Derby</h3>
+              <p class="product-card__price"><strong>Rp 720.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <!-- figma -->
+          <article class="product-card" data-status="preorder" data-category="figma">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product_bonus/image/2070/95474ffb52e3120b299507a4d938ed87.jpg"
+                alt="figma Takane Lui - hololive production" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Max Factory</p>
+              <h3>figma Takane Lui - hololive production</h3>
+              <p class="product-card__price"><strong>Rp 890.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <!-- mini Figure -->
+          <article class="product-card" data-status="preorder" data-category="mini">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span><span
+                  class="badge-tag badge-tag--bonus">Bonuses</span></div>
+              <img
+                src="https://kyoucdn.id/items/deformed-figure-tea-time-moment-changli-wuthering-waves-10cm-78b0e62b33b3a532.jpg"
+                alt="Deformed Figure Changli - Tea Time Ver. Wuthering Waves (10cm)" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Good Smile Company</p>
+              <h3>Deformed Figure Changli - Tea Time Ver. Wuthering Waves (10cm)</h3>
+              <p class="product-card__price"><strong>Rp 940.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <article class="product-card" data-status="preorder" data-category="mini">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://kyoucdn.id/items/389412-amiami-x-snail-shell-action-scaled-figure-doro-goddess-of-victory-nikke.jpg"
+                alt="Action Scaled Figure Doro - Goddess of Victory Nikke" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Snail Shell</p>
+              <h3>Amiami x Snail Shell Action Scaled Figure Doro - Goddess of Victory: Nikke</h3>
+              <p class="product-card__price"><strong>Rp 1.650.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <article class="product-card" data-status="preorder" data-category="mini">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://kyoucdn.id/items/454228-mini-figure-q-version-furina-wondrous-travels-series-ver-genshin-impact-137cm-445093439.jpg"
+                alt="Q Version Mini Figure Furina - Genshin Impact" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">FuRyu Corporation</p>
+              <h3>Q Version Mini Figure Furina - Wondrous Travels Series Genshin Impact (13,7cm)</h3>
+              <p class="product-card__price"><strong>Rp 320.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <article class="product-card" data-status="preorder" data-category="mini">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://kyoucdn.id/items/302368-q-version-mini-figure-kafka-train-tea-party-honkai-star-rail.jpg"
+                alt="Q Version Mini Figure Kafka - Honkai Star Rail" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">FuRyu Corporation</p>
+              <h3>Q Version Mini Figure Kafka - Train Tea Party Honkai Star Rail</h3>
+              <p class="product-card__price"><strong>Rp 350.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <!-- Prize Figure -->
+          <article class="product-card" data-status="preorder" data-category="prize">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://www.goodsmileus.com/cdn/shop/files/d32ef4a3-f44c-4a84-9392-bc9cc531cc17.jpg?v=1794593836&width=1920"
+                alt="BiCute Pure Figure C.C. - Code Geass" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">FuRyu Corporation</p>
+              <h3>Code Geass: Lelouch of the Rebellion - BiCute Pure Figure C.C.</h3>
+              <p class="product-card__price"><strong>Rp 650.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <!-- Scale Figure -->
+          <article class="product-card" data-status="preorder" data-category="scale">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span><span
+                  class="badge-tag badge-tag--new">New</span></div>
+              <img
+                src="https://www.goodsmileus.com/cdn/shop/files/10194685-c897-4df9-8380-4f134be44f2b.jpg?v=1794850116&width=1920"
+                alt="Mika Swimsuit Memorial Lobby Ver. 1/7 Scale Figure - Blue Archive" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Good Smile Company</p>
+              <h3>Blue Archive - Mika (Swimsuit): Memorial Lobby Ver. 1/7 Scale Figure</h3>
+              <p class="product-card__price"><strong>Rp 2.720.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <article class="product-card" data-status="preorder" data-category="scale">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://kyoucdn.id/items/with-bonus-with-motorbike-set-pvc-figure-1-7-lynae-deluxe-edition-ver-wuthering-waves-c1b6c124d526c881.jpg"
+                alt="PVC Figure 1/7 Lynae Deluxe Edition - Wuthering Waves" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">AniMester</p>
+              <h3>PVC Figure 1/7 Lynae - Deluxe Edition Ver. Wuthering Waves</h3>
+              <p class="product-card__price"><strong>Rp 4.350.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <article class="product-card" data-status="preorder" data-category="scale">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span><span
+                  class="badge-tag badge-tag--bonus">Bonuses</span></div>
+              <img
+                src="https://kyoucdn.id/items/pvc-figure-1-8-sandrone-mirrored-analysis-ver-genshin-impact-8bfc9ba9d671ff48.jpg"
+                alt="PVC Figure Gift+ 1/8 Sandrone - Genshin Impact" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Myethos</p>
+              <h3>PVC Figure Gift+ 1/8 Sandrone - Mirrored Analysis Ver. Genshin Impact</h3>
+              <p class="product-card__price"><strong>Rp 980.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <article class="product-card" data-status="preorder" data-category="scale">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img
+                src="https://kyoucdn.id/items/527727-pvc-figure-gift-18-columbina-carnival-gathering-ver-genshin-impact.jpg"
+                alt="PVC Figure Gift 1/8 Columbina - Genshin Impact" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Myethos</p>
+              <h3>PVC Figure Gift 1/8 Columbina - Carnival Gathering Ver. Genshin Impact</h3>
+              <p class="product-card__price"><strong>Rp 1.250.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+
+
+          <!-- POP UP PARADE -->
+          <article class="product-card" data-status="preorder" data-category="pop">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span><span
+                  class="badge-tag badge-tag--new">New</span><span class="badge-tag badge-tag--bonus">Bonuses</span>
+              </div>
+              <img
+                src="https://www.goodsmileus.com/cdn/shop/files/9fd17edf-a20e-4515-b60b-2a87629e3f0d.jpg?v=1794588295&width=1920"
+                alt="POP UP PARADE Mita L Size Figure - MiSide" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Good Smile Company</p>
+              <h3>MiSide - POP UP PARADE Mita L Size Figure</h3>
+              <p class="product-card__price"><strong>Rp 2.450.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+
+          <article class="product-card" data-status="preorder" data-category="pop">
+            <div class="product-card__media">
+              <div class="tag-row"><span class="badge-tag badge-tag--pre">Pre-Order</span></div>
+              <img src="https://kyoucdn.id/items/501681-pop-up-parade-l-size-aoki-ruri-ruri-dragon-1331349300.jpg"
+                alt="POP UP PARADE L Size Aoki Ruri - Ruri Dragon" loading="lazy">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__series">Good Smile Company</p>
+              <h3>POP UP PARADE L Size Aoki Ruri - Ruri Dragon</h3>
+              <p class="product-card__price"><strong>Rp 1.180.000</strong></p>
+              <button class="btn btn--primary" type="button">Pre-Order Now</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <a href="index.html" class="brand brand--footer" aria-label="Atelier Hobby - Beranda">
+          <img class="brand__mark" src="assets/images/logo-placeholder.svg" alt="Logo Atelier Hobby" width="40"
+            height="40">
+          <span class="brand__name">Atelier <b>Hobby</b></span>
+        </a>
+        <p>Toko figure dan merchandise anime terpercaya untuk kolektor di Indonesia. Figure original, pre-order aman,
+          dan pengiriman seluruh Indonesia.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="X">X</a>
+          <a href="#" aria-label="Facebook">FB</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Shop</h3>
+        <a href="index.html#product-lines">Koleksi</a>
+        <a href="index.html#product-lines">Brands</a>
+        <a href="preorder.html">Pre-Orders</a>
+        <a href="available.html">Available Now</a>
+      </div>
+      <div class="footer-col">
+        <h3>Connect</h3>
+        <a href="login.html">My Account</a>
+        <a href="#">Tentang Kami</a>
+        <a href="index.html#sale">Promo</a>
+        <a href="#">Karier</a>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <a href="#">Support Center</a>
+        <a href="#">Hubungi Kami</a>
+        <a href="#">Cara Pemesanan</a>
+        <a href="#">Pengiriman</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 Atelier Hobby. All rights reserved.</span>
+      <nav aria-label="Kebijakan">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+        <a href="#">Refund Policy</a>
+      </nav>
+      <span class="footer-payments">VISA &middot; Mastercard &middot; GOPAY</span>
+    </div>
+  </footer>
+</body>
+
+</html>

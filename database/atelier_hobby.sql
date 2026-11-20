@@ -1,217 +1,375 @@
--- =====================================================================
--- Atelier Hobby: E-Commerce Figure
--- PRD v1.0, Section 6: Relational Database Design
--- Engine: MySQL 8.0+ / InnoDB, charset utf8mb4
--- Covers the 10 tables explicitly defined in PRD section 6.1
--- =====================================================================
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 20, 2026 at 11:30 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
-CREATE DATABASE IF NOT EXISTS atelier_hobby
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_0900_ai_ci;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-USE atelier_hobby;
 
-SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS order_items, orders, wishlists, cart_items, carts,
-                     products, categories, brands, banners, users;
-SET FOREIGN_KEY_CHECKS = 1;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- ---------------------------------------------------------------------
--- users
--- ---------------------------------------------------------------------
-CREATE TABLE users (
-  user_id        BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  username       VARCHAR(50)     NOT NULL,
-  email          VARCHAR(255)    NOT NULL,
-  password_hash  VARCHAR(255)    NOT NULL COMMENT 'bcrypt/argon2 hash, never plain text',
-  role           ENUM('customer','super_admin','store_manager',
-                      'warehouse_staff','customer_service')
-                 NOT NULL DEFAULT 'customer',
-  created_at     TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at     TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
-                                 ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (user_id),
-  UNIQUE KEY uq_users_email (email)
-) ENGINE=InnoDB;
+--
+-- Database: `atelier_hobby`
+--
 
--- ---------------------------------------------------------------------
--- brands (manufacturers, e.g. Good Smile Company, Bandai, Kotobukiya)
--- ---------------------------------------------------------------------
-CREATE TABLE brands (
-  brand_id  INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  name      VARCHAR(100)  NOT NULL,
-  url       VARCHAR(255)  NULL,
-  PRIMARY KEY (brand_id),
-  UNIQUE KEY uq_brands_name (name)
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
 
--- ---------------------------------------------------------------------
--- categories
--- ---------------------------------------------------------------------
-CREATE TABLE categories (
-  category_id    INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  name           VARCHAR(100)  NOT NULL,
-  slug           VARCHAR(120)  NOT NULL COMMENT 'SEO-friendly URL, e.g. scale-figure',
-  icon_url       VARCHAR(255)  NULL,
-  display_order  INT           NOT NULL DEFAULT 0,
-  PRIMARY KEY (category_id),
-  UNIQUE KEY uq_categories_slug (slug)
-) ENGINE=InnoDB;
+--
+-- Table structure for table `banners`
+--
 
--- ---------------------------------------------------------------------
--- products
--- ---------------------------------------------------------------------
-CREATE TABLE products (
-  product_id        BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  brand_id          INT UNSIGNED    NOT NULL,
-  category_id       INT UNSIGNED    NOT NULL,
-  sku               VARCHAR(64)     NOT NULL,
-  name              VARCHAR(255)    NOT NULL,
-  slug              VARCHAR(280)    NOT NULL,
-  series_title      VARCHAR(255)    NULL COMMENT 'Franchise / series, e.g. anime or game title',
-  description       TEXT            NULL,
-  price             DECIMAL(15,2)   NOT NULL COMMENT 'IDR',
-  discount_price    DECIMAL(15,2)   NULL     COMMENT 'IDR, NULL = no discount',
-  status            ENUM('available','pre_order','coming_soon','out_of_stock')
-                    NOT NULL DEFAULT 'available',
-  is_new            TINYINT(1)      NOT NULL DEFAULT 0,
-  has_bonus         TINYINT(1)      NOT NULL DEFAULT 0,
-  stock_qty         INT UNSIGNED    NOT NULL DEFAULT 0,
-  est_arrival_text  VARCHAR(100)    NULL COMMENT 'e.g. "Q2 2027" for pre-order items',
-  main_image_url    VARCHAR(255)    NULL,
-  PRIMARY KEY (product_id),
-  UNIQUE KEY uq_products_sku (sku),
-  UNIQUE KEY uq_products_slug (slug),
-  KEY idx_products_brand (brand_id),
-  KEY idx_products_category (category_id),
-  KEY idx_products_status (status),
-  CONSTRAINT fk_products_brand
-    FOREIGN KEY (brand_id) REFERENCES brands (brand_id)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT fk_products_category
-    FOREIGN KEY (category_id) REFERENCES categories (category_id)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT chk_products_price CHECK (price >= 0),
-  CONSTRAINT chk_products_discount
-    CHECK (discount_price IS NULL OR (discount_price >= 0 AND discount_price <= price))
-) ENGINE=InnoDB;
+CREATE TABLE `banners` (
+  `banner_id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `image_url` varchar(255) NOT NULL,
+  `target_url` varchar(255) DEFAULT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ---------------------------------------------------------------------
--- carts (1 user : 1 cart)
--- ---------------------------------------------------------------------
-CREATE TABLE carts (
-  cart_id     BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id     BIGINT UNSIGNED NOT NULL,
-  updated_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
-                              ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (cart_id),
-  UNIQUE KEY uq_carts_user (user_id),
-  CONSTRAINT fk_carts_user
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
-    ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
 
--- ---------------------------------------------------------------------
--- cart_items
--- ---------------------------------------------------------------------
-CREATE TABLE cart_items (
-  citem_id    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  cart_id     BIGINT UNSIGNED NOT NULL,
-  product_id  BIGINT UNSIGNED NOT NULL,
-  quantity    INT UNSIGNED    NOT NULL DEFAULT 1,
-  added_at    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (citem_id),
-  UNIQUE KEY uq_cart_items_cart_product (cart_id, product_id),
-  KEY idx_cart_items_product (product_id),
-  CONSTRAINT fk_cart_items_cart
-    FOREIGN KEY (cart_id) REFERENCES carts (cart_id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT fk_cart_items_product
-    FOREIGN KEY (product_id) REFERENCES products (product_id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT chk_cart_items_qty CHECK (quantity > 0)
-) ENGINE=InnoDB;
+--
+-- Table structure for table `brands`
+--
 
--- ---------------------------------------------------------------------
--- wishlists (junction: users <-> products, many-to-many)
--- ---------------------------------------------------------------------
-CREATE TABLE wishlists (
-  wish_id     BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id     BIGINT UNSIGNED NOT NULL,
-  product_id  BIGINT UNSIGNED NOT NULL,
-  created_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (wish_id),
-  UNIQUE KEY uq_wishlists_user_product (user_id, product_id),
-  KEY idx_wishlists_product (product_id),
-  CONSTRAINT fk_wishlists_user
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT fk_wishlists_product
-    FOREIGN KEY (product_id) REFERENCES products (product_id)
-    ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB;
+CREATE TABLE `brands` (
+  `brand_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `slug` varchar(120) NOT NULL COMMENT 'SEO-friendly URL, e.g. good-smile-company',
+  `url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ---------------------------------------------------------------------
--- orders (1 user : many orders)
--- ---------------------------------------------------------------------
-CREATE TABLE orders (
-  order_id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id           BIGINT UNSIGNED NOT NULL,
-  order_number      VARCHAR(32)     NOT NULL,
-  order_type        ENUM('ready_stock','pre_order') NOT NULL DEFAULT 'ready_stock',
-  total_amount      DECIMAL(15,2)   NOT NULL COMMENT 'IDR',
-  payment_method    VARCHAR(50)     NULL COMMENT 'e.g. VA_BCA, QRIS, GOPAY, CREDIT_CARD',
-  payment_status    ENUM('pending','paid','failed','expired','refunded')
-                    NOT NULL DEFAULT 'pending',
-  order_status      ENUM('awaiting_payment','paid','processing','packed','shipped',
-                         'completed','cancelled','return_requested','returned',
-                         'preorder_confirmed','awaiting_arrival','awaiting_settlement')
-                    NOT NULL DEFAULT 'awaiting_payment',
-  shipping_address  TEXT            NOT NULL COMMENT 'Address snapshot at order time',
-  created_at        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (order_id),
-  UNIQUE KEY uq_orders_number (order_number),
-  KEY idx_orders_user_created (user_id, created_at),
-  KEY idx_orders_status (order_status),
-  CONSTRAINT fk_orders_user
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT chk_orders_total CHECK (total_amount >= 0)
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
 
--- ---------------------------------------------------------------------
--- order_items
--- ---------------------------------------------------------------------
-CREATE TABLE order_items (
-  oitem_id    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  order_id    BIGINT UNSIGNED NOT NULL,
-  product_id  BIGINT UNSIGNED NOT NULL,
-  unit_price  DECIMAL(15,2)   NOT NULL COMMENT 'Price snapshot at order time',
-  quantity    INT UNSIGNED    NOT NULL,
-  subtotal    DECIMAL(15,2)   GENERATED ALWAYS AS (unit_price * quantity) STORED,
-  PRIMARY KEY (oitem_id),
-  KEY idx_order_items_order (order_id),
-  KEY idx_order_items_product (product_id),
-  CONSTRAINT fk_order_items_order
-    FOREIGN KEY (order_id) REFERENCES orders (order_id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT fk_order_items_product
-    FOREIGN KEY (product_id) REFERENCES products (product_id)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT chk_order_items_qty CHECK (quantity > 0),
-  CONSTRAINT chk_order_items_price CHECK (unit_price >= 0)
-) ENGINE=InnoDB;
+--
+-- Table structure for table `carts`
+--
 
--- ---------------------------------------------------------------------
--- banners (homepage hero carousel, managed from admin panel)
--- ---------------------------------------------------------------------
-CREATE TABLE banners (
-  banner_id   INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  title       VARCHAR(150)  NOT NULL,
-  image_url   VARCHAR(255)  NOT NULL,
-  target_url  VARCHAR(255)  NULL,
-  sort_order  INT           NOT NULL DEFAULT 0,
-  is_active   TINYINT(1)    NOT NULL DEFAULT 1,
-  PRIMARY KEY (banner_id),
-  KEY idx_banners_active_sort (is_active, sort_order)
-) ENGINE=InnoDB;
+CREATE TABLE `carts` (
+  `cart_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_items`
+--
+
+CREATE TABLE `cart_items` (
+  `citem_id` bigint(20) UNSIGNED NOT NULL,
+  `cart_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `category_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `slug` varchar(120) NOT NULL COMMENT 'SEO-friendly URL, e.g. scale-figure',
+  `icon_url` varchar(255) DEFAULT NULL,
+  `display_order` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `order_number` varchar(32) NOT NULL,
+  `order_type` enum('ready_stock','pre_order') NOT NULL DEFAULT 'ready_stock',
+  `total_amount` decimal(15,2) UNSIGNED NOT NULL COMMENT 'IDR',
+  `payment_method` varchar(50) DEFAULT NULL COMMENT 'e.g. VA_BCA, QRIS, GOPAY, CREDIT_CARD',
+  `payment_status` enum('pending','paid','failed','expired','refunded') NOT NULL DEFAULT 'pending',
+  `order_status` enum('awaiting_payment','paid','processing','packed','shipped','completed','cancelled','return_requested','returned','preorder_confirmed','awaiting_arrival','awaiting_settlement') NOT NULL DEFAULT 'awaiting_payment',
+  `shipping_address` text NOT NULL COMMENT 'Address snapshot at order time',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `oitem_id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `unit_price` decimal(15,2) UNSIGNED NOT NULL COMMENT 'Price snapshot at order time',
+  `quantity` int(10) UNSIGNED NOT NULL,
+  `subtotal` decimal(15,2) GENERATED ALWAYS AS (`unit_price` * `quantity`) STORED
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `brand_id` int(10) UNSIGNED NOT NULL,
+  `category_id` int(10) UNSIGNED NOT NULL,
+  `sku` varchar(64) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(280) NOT NULL,
+  `series_title` varchar(255) DEFAULT NULL COMMENT 'Franchise / series, e.g. anime or game title',
+  `description` text DEFAULT NULL,
+  `price` decimal(15,2) UNSIGNED NOT NULL COMMENT 'IDR',
+  `discount_price` decimal(15,2) UNSIGNED DEFAULT NULL COMMENT 'IDR, NULL = no discount',
+  `status` enum('available','pre_order','coming_soon','out_of_stock') NOT NULL DEFAULT 'available',
+  `is_new` tinyint(1) NOT NULL DEFAULT 0,
+  `has_bonus` tinyint(1) NOT NULL DEFAULT 0,
+  `stock_qty` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `est_arrival_text` varchar(100) DEFAULT NULL COMMENT 'e.g. "Q2 2027" for pre-order items',
+  `main_image_url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password_hash` varchar(255) NOT NULL COMMENT 'bcrypt/argon2 hash, never plain text',
+  `role` enum('customer','super_admin','store_manager','warehouse_staff','customer_service') NOT NULL DEFAULT 'customer',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlists`
+--
+
+CREATE TABLE `wishlists` (
+  `wish_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `banners`
+--
+ALTER TABLE `banners`
+  ADD PRIMARY KEY (`banner_id`),
+  ADD KEY `idx_banners_active_sort` (`is_active`,`sort_order`);
+
+--
+-- Indexes for table `brands`
+--
+ALTER TABLE `brands`
+  ADD PRIMARY KEY (`brand_id`),
+  ADD UNIQUE KEY `uq_brands_name` (`name`),
+  ADD UNIQUE KEY `uq_brands_slug` (`slug`);
+
+--
+-- Indexes for table `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD UNIQUE KEY `uq_carts_user` (`user_id`);
+
+--
+-- Indexes for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD PRIMARY KEY (`citem_id`),
+  ADD UNIQUE KEY `uq_cart_items_cart_product` (`cart_id`,`product_id`),
+  ADD KEY `idx_cart_items_product` (`product_id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`category_id`),
+  ADD UNIQUE KEY `uq_categories_slug` (`slug`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`),
+  ADD UNIQUE KEY `uq_orders_number` (`order_number`),
+  ADD KEY `idx_orders_user_created` (`user_id`,`created_at`),
+  ADD KEY `idx_orders_status` (`order_status`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`oitem_id`),
+  ADD KEY `idx_order_items_order` (`order_id`),
+  ADD KEY `idx_order_items_product` (`product_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`product_id`),
+  ADD UNIQUE KEY `uq_products_sku` (`sku`),
+  ADD UNIQUE KEY `uq_products_slug` (`slug`),
+  ADD KEY `idx_products_brand` (`brand_id`),
+  ADD KEY `idx_products_category` (`category_id`),
+  ADD KEY `idx_products_status` (`status`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `uq_users_email` (`email`);
+
+--
+-- Indexes for table `wishlists`
+--
+ALTER TABLE `wishlists`
+  ADD PRIMARY KEY (`wish_id`),
+  ADD UNIQUE KEY `uq_wishlists_user_product` (`user_id`,`product_id`),
+  ADD KEY `idx_wishlists_product` (`product_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `banners`
+--
+ALTER TABLE `banners`
+  MODIFY `banner_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `brands`
+--
+ALTER TABLE `brands`
+  MODIFY `brand_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `cart_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  MODIFY `citem_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `oitem_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `product_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `wishlists`
+--
+ALTER TABLE `wishlists`
+  MODIFY `wish_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `carts`
+--
+ALTER TABLE `carts`
+  ADD CONSTRAINT `fk_carts_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD CONSTRAINT `fk_cart_items_cart` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_cart_items_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `fk_order_items_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_order_items_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `fk_products_brand` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`brand_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_products_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `wishlists`
+--
+ALTER TABLE `wishlists`
+  ADD CONSTRAINT `fk_wishlists_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_wishlists_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
